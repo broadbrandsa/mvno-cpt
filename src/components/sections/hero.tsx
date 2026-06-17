@@ -1,11 +1,10 @@
-import Image from "next/image";
 import { ArrowDown, MapPin } from "lucide-react";
 import { DeckCTA } from "@/components/deck-cta";
 import { ParallaxBackground } from "@/components/parallax-background";
 import { CursorSpotlight } from "@/components/animated/cursor-spotlight";
 import { CountUp } from "@/components/animated/count-up";
 import { Reveal } from "@/components/animated/reveal";
-import { event, groupBrands } from "@/content/deck";
+import { event, speakers } from "@/content/deck";
 import { cn } from "@/lib/utils";
 
 // Three hero stats. All three are sourced from the workshop deck.
@@ -167,39 +166,29 @@ export function Hero() {
         </Reveal>
 
         <Reveal delay={420}>
-          <div className="mt-14 flex flex-col gap-5 border-t border-white/10 pt-8 sm:flex-row sm:items-center sm:gap-8">
+          <div className="mt-14 border-t border-white/10 pt-8">
             <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-fg-faint">
-              Presented by
+              Speakers
             </span>
-            <ul className="flex flex-wrap items-center gap-x-8 gap-y-5">
-              {groupBrands.map((brand) => {
-                const isLead = "lead" in brand && brand.lead === true;
-                return (
-                  <li key={brand.name} style={{ height: 32 }}>
-                    <a
-                      href={brand.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`${brand.name} - opens in a new tab`}
-                      className={cn(
-                        "press flex h-full items-center transition-all duration-300 hover:scale-[1.06] hover:opacity-100",
-                        isLead ? "opacity-100" : "opacity-60",
-                      )}
-                    >
-                      <Image
-                        src={brand.src}
-                        alt={brand.name}
-                        width={brand.w}
-                        height={brand.h}
-                        className={cn(
-                          "h-auto w-auto",
-                          isLead ? "max-h-7" : "max-h-6 brightness-0 invert",
-                        )}
-                      />
-                    </a>
-                  </li>
-                );
-              })}
+            <ul className="mt-5 grid gap-x-8 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
+              {speakers.map((s) => (
+                <li key={s.slug}>
+                  <a
+                    href={s.brandUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${s.name} - ${s.brand} - opens in a new tab`}
+                    className="press group block"
+                  >
+                    <p className="text-sm font-semibold text-fg transition-colors group-hover:text-mint-300">
+                      {s.name}
+                    </p>
+                    <p className="text-xs text-fg-muted">
+                      {s.role}, {s.brand}
+                    </p>
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
         </Reveal>
