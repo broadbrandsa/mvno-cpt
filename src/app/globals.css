@@ -1,0 +1,280 @@
+@import "tailwindcss";
+
+@theme {
+  /* Surfaces */
+  --color-bg: #0a1628;
+  --color-bg-elevated: #0f1f3a;
+  --color-bg-card: #112441;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.16);
+
+  /* Text */
+  --color-fg: #ffffff;
+  --color-fg-muted: rgba(255, 255, 255, 0.72);
+  --color-fg-subtle: rgba(255, 255, 255, 0.56);
+  --color-fg-faint: rgba(255, 255, 255, 0.4);
+
+  /* Brand accents */
+  --color-mint-300: #6ee7b7;
+  --color-mint-400: #34e7a8;
+  --color-mint-500: #10b981;
+  --color-mint-600: #059669;
+
+  --color-azure-400: #60a5fa;
+  --color-azure-500: #3b82f6;
+  --color-azure-600: #2563eb;
+
+  --color-rose-400: #f87171;
+  --color-rose-500: #ef4444;
+  --color-rose-600: #dc2626;
+
+  --color-amber-400: #facc15;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Premium easings */
+  --ease-expo-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-quint-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  background: var(--color-bg);
+  color: var(--color-fg);
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+@layer utilities {
+  .gradient-radial {
+    background-image: radial-gradient(
+        circle at 20% 0%,
+        rgba(16, 185, 129, 0.12),
+        transparent 55%
+      ),
+      radial-gradient(
+        circle at 90% 10%,
+        rgba(37, 99, 235, 0.18),
+        transparent 50%
+      ),
+      linear-gradient(180deg, #07111f 0%, #0a1628 60%);
+  }
+
+  .gradient-hero {
+    background-image: linear-gradient(
+        180deg,
+        rgba(10, 22, 40, 0.4) 0%,
+        rgba(10, 22, 40, 0.85) 70%,
+        #0a1628 100%
+      ),
+      radial-gradient(
+        ellipse at 30% 20%,
+        rgba(16, 185, 129, 0.22),
+        transparent 60%
+      ),
+      radial-gradient(
+        ellipse at 80% 0%,
+        rgba(37, 99, 235, 0.25),
+        transparent 60%
+      );
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  .grid-bg {
+    background-image: linear-gradient(
+        rgba(255, 255, 255, 0.04) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.04) 1px,
+        transparent 1px
+      );
+    background-size: 56px 56px;
+  }
+
+  /* Subtle film-grain noise overlay for depth.
+     Inline SVG keeps it cacheable and zero-network. */
+  .noise {
+    position: relative;
+  }
+  .noise::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/></svg>");
+    background-size: 160px 160px;
+  }
+
+  /* Aurora ambient blob - accepts color via --aurora variable. */
+  .aurora {
+    position: absolute;
+    pointer-events: none;
+    border-radius: 9999px;
+    filter: blur(80px);
+    background: var(--aurora, rgba(16, 185, 129, 0.18));
+    will-change: transform;
+  }
+
+  /* Card hover lift with tone-tinted glow. */
+  .lift {
+    transition:
+      transform 280ms var(--ease-expo-out),
+      box-shadow 280ms var(--ease-expo-out),
+      border-color 280ms var(--ease-expo-out);
+  }
+  .lift:hover {
+    transform: translateY(-3px);
+  }
+
+  /* Press-down feedback for buttons. */
+  .press {
+    transition: transform 120ms var(--ease-expo-out);
+  }
+  .press:active {
+    transform: scale(0.97);
+  }
+
+  /* Shimmer for primary CTAs. */
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .shimmer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      120deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.45) 50%,
+      transparent 70%
+    );
+    transform: translateX(-110%);
+    transition: transform 800ms var(--ease-expo-out);
+    pointer-events: none;
+  }
+  .shimmer:hover::before {
+    transform: translateX(110%);
+  }
+
+  /* Animated gradient border for premium "winner" cards.
+     The element gets a transparent border; we paint a moving conic
+     gradient behind it. */
+  .gradient-border {
+    position: relative;
+    background-clip: padding-box;
+    border: 1px solid transparent;
+  }
+  .gradient-border::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: conic-gradient(
+      from var(--angle, 0deg),
+      var(--gb-color, rgba(16, 185, 129, 0.6)),
+      transparent 40%,
+      var(--gb-color, rgba(16, 185, 129, 0.6))
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    z-index: -1;
+    animation: spin 8s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Floating ambient blob movement. */
+  @keyframes float-y {
+    0%,
+    100% {
+      transform: translateY(0px) translateX(0px);
+    }
+    50% {
+      transform: translateY(-30px) translateX(10px);
+    }
+  }
+  .float {
+    animation: float-y 12s ease-in-out infinite;
+  }
+
+  /* Pulse dot used in eyebrow badges. */
+  @keyframes pulse-dot {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgba(52, 231, 168, 0.6);
+    }
+    50% {
+      box-shadow: 0 0 0 6px rgba(52, 231, 168, 0);
+    }
+  }
+  .pulse-dot {
+    animation: pulse-dot 2.4s ease-out infinite;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.6s var(--ease-expo-out) both;
+}
+
+/* Respect reduced motion globally - kill all decorative animations. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .float,
+  .pulse-dot,
+  .gradient-border::before {
+    animation: none !important;
+  }
+}
