@@ -25,13 +25,12 @@ your Supabase project, then set `NEXT_PUBLIC_SUPABASE_URL` and
 
 ## The deck PDF
 
-The download flow expects a PDF at
-[`public/MVNO-Success-Blueprint-Cape-Town-2026.pdf`](./public/). Drop
-the file there and form submissions auto-trigger the download. Until
-the file exists, the form will still record leads but the download
-will 404. The path is centralised in
-[`src/lib/deck-access.ts`](./src/lib/deck-access.ts) - edit `PDF_PATH`
-to change it.
+The download flow serves the PDF from
+[`public/MVNO-Nation-Africa-Workshop-2026.pdf`](./public/). The path
+is centralised in
+[`src/lib/deck-access.ts`](./src/lib/deck-access.ts) - edit
+`PDF_PATH` + `PDF_FILENAME` (and the matching `deckFile` constant in
+`src/content/deck.ts`) if the filename ever changes.
 
 ## Stack
 

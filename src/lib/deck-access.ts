@@ -12,8 +12,8 @@ import { useSyncExternalStore } from "react";
 
 export const STORAGE_KEY = "mvnoNationCptDeck.v1";
 export const ACCESS_EVENT = "mvno-nation-cpt-access-changed";
-export const PDF_PATH = "/MVNO-Success-Blueprint-Cape-Town-2026.pdf";
-export const PDF_FILENAME = "MVNO-Success-Blueprint-Cape-Town-2026.pdf";
+export const PDF_PATH = "/MVNO-Nation-Africa-Workshop-2026.pdf";
+export const PDF_FILENAME = "MVNO-Nation-Africa-Workshop-2026.pdf";
 
 export type StoredAccess = {
   name: string;

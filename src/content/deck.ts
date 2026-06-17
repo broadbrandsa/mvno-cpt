@@ -29,8 +29,8 @@ export const event = {
 };
 
 export const deckFile = {
-  href: "/MVNO-Success-Blueprint-Cape-Town-2026.pdf",
-  filename: "MVNO-Success-Blueprint-Cape-Town-2026.pdf",
+  href: "/MVNO-Nation-Africa-Workshop-2026.pdf",
+  filename: "MVNO-Nation-Africa-Workshop-2026.pdf",
   label: "PDF · MVNO Success Blueprint · Cape Town 2026",
 } as const;
 
